@@ -1,5 +1,9 @@
 # TalkAway
 
+## Project specifications
+
+The project specifications are described in this [repo's wiki](https://github.com/SergiyGolov/TalkAway/wiki)
+
 ## Getting Started
 
 ### API
