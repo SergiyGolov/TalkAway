@@ -28,7 +28,7 @@ class MiddlePane extends Component {
         this.scroll = this.scroll.bind(this);
 
         // Messages scrollbar policy
-        document.body.addEventListener('DOMSubtreeModified', this.DOMModified, false);
+        document.body.addEventListener('MutationObserver', this.DOMModified, false);
 
     }
 

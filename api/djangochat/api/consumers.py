@@ -10,7 +10,6 @@ from graphql_jwt.utils import jwt_decode
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-
         self.user = self.scope['user']
         self.channel = 0
 

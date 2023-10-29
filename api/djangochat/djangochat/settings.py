@@ -24,13 +24,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'as0*j_%@)den2&^l0&gz%aneh!x(=jws1$=5*9z=26d_(js40h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+# DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+DEBUG=True
 
 ALLOWED_HOSTS = ['djangochat.srvz-webapp.he-arc.ch', '127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -54,7 +56,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
 
 ROOT_URLCONF = 'djangochat.urls'
@@ -143,7 +144,7 @@ AUTHENTICATION_BACKENDS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_REPLACE_HTTPS_REFERER = True
+#CORS_REPLACE_HTTPS_REFERER = True
 
 ASGI_APPLICATION = 'djangochat.routing.application'
 

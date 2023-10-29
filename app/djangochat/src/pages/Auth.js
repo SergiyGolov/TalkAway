@@ -28,7 +28,7 @@ const AuthPage = props => {
                 {authComponent}
                 
                 <button type="button" onClick={switchModeHandler} className="btn btn-link mt-2">{isLogin ? 'No account ? Register here' : 'Already have an account ? Log in here'}</button>
-                <p className="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+                <p className="mt-5 mb-3 text-muted">&copy; 2019</p>
             </form>
         </div>
     );

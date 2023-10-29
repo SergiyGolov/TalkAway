@@ -44,7 +44,7 @@ class FriendType(DjangoObjectType):
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
-        exclude_fields = ('password')
+        exclude_fields = ('password',)
 
 
 class Query(graphene.ObjectType):
