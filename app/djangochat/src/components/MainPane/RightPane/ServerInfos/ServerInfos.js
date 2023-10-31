@@ -20,9 +20,9 @@ class ServerInfos extends Component {
             channelCreation: false,
             addingUser: false,
             defaultChannelSelected: false,
-            userUpdateListenerAdded:false
+            userUpdateListenerAdded:false,
+            oldServerId:0
         };
-
         this.newUserInput = React.createRef();
         this.channelInputRef = React.createRef();
     }
@@ -35,10 +35,11 @@ class ServerInfos extends Component {
         });;
     };
 
-    addingUser = () => {
+    showAddingUser = () => {
         this.props.getAllUsers();
         this.setState({
-            addingUser: true
+            addingUser: true,
+            oldServerId:this.props.serverId
         });
     };
 
@@ -83,12 +84,14 @@ class ServerInfos extends Component {
 
     showChannelCreation = () => {
         this.setState({
-            channelCreation: true
+            channelCreation: true,
+            oldServerId:this.props.serverId
         },
             () => {
                 this.channelInputRef.current.focus();
             })
     };
+
 
     addChannel = () => {
         const channelName = String(this.channelInputRef.current.value);
@@ -100,23 +103,29 @@ class ServerInfos extends Component {
             .then(() => {
                 this.setState({
                     serverCreation: false
-                })
+                });
                 if(this.serverInputRef !== undefined){
                     this.serverInputRef.current.value = '';
                 }
                 toastr.success("Success", "Channel successfuly created");
+                this.setState({
+                    channelCreation: false
+                });
             }).catch((err) => {
                 toastr.error("Error", "Impossible to create a channel");
             });
+            this.channelInputRef.current.value="";
     };
 
     _handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            this.addChannel();
+            if(this.state.channelCreation){
+                this.addChannel();
+            }else if(this.state.addingUser){
+                this.addUser();
+            }
         }
     }
-
-
 
     render() {
             let channelComponents = '';
@@ -132,7 +141,7 @@ class ServerInfos extends Component {
                     <Channel name={channel.name} channelSelected={this.channelSelected} idChannel={channel.id} />
                 </div>);
             });
-            let serverUsers
+            let serverUsers;
             if(this.props.server.hasOwnProperty('userSet')){
                 serverUsers=this.props.server.userSet.map(u => {
                     let image = this.props.images[u.id] === '' ? require('../images/profile.png') : this.props.images[u.id];
@@ -141,7 +150,17 @@ class ServerInfos extends Component {
                     </div>);
                 });
             }
+
+            if (this.state.addingUser && this.props.serverId!==this.state.oldServerId){
+                this.setState({addingUser:false});
+            }
+
+            if (this.state.channelCreation && this.props.serverId!==this.state.oldServerId){
+                this.setState({channelCreation:false});
+            }
             
+            this.props.closeSettings();
+
             return (
                 <div id="serverContainer" className="container">
                     <div className="serverButtons row">
@@ -158,9 +177,9 @@ class ServerInfos extends Component {
                                 </div>
                             </div>
                             :
-                            <button className="buttonServer unselectable" onClick={this.addingUser}>Add user</button>
+                            <button className="buttonServer unselectable" onClick={this.showAddingUser}>Add user</button>
                     }
-                    <button className="buttonServer unselectable" onClick={this.props.switchSettings}>Server settings</button>
+                    <button className="buttonServer unselectable" onClick={this.props.openSettings}>Server settings</button>
                 </div>
                 <hr className="serverhr" />
                 <div id="serverChannels" className="row">

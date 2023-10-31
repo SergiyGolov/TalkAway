@@ -3,29 +3,39 @@ import './RightPane.css';
 import ServerProfile from './ServerProfile/ServerProfile';
 import ServerInfos from './ServerInfos/ServerInfos';
 import ServerSettings from './ServerSettings/ServerSettings';
+import { connect } from 'react-redux';
 
 class RightPane extends Component{
     state = {
-        settingsVisible: false
+        settingsVisible: false,
+        oldServerId:0
     }
 
-    switchSettings = ()=> {
+    openSettings = ()=> {
         this.setState({
-            settingsVisible : !this.state.settingsVisible
+            settingsVisible : true,
+            oldServerId:this.props.serverId
+        })
+    }
+
+    closeSettings=()=>{
+        this.setState({
+            settingsVisible : false,
+            oldServerId:0
         })
     }
     
     render(){
         let component;
-        if(this.state.settingsVisible){
-            component = (<ServerSettings switchSettings={this.switchSettings} />);
+        if(this.state.settingsVisible && this.state.oldServerId===this.props.serverId){
+            component = (<ServerSettings closeSettings={this.closeSettings} />);
         } else {
             component = (<div>
                 <div className="serverProfile">
                     <ServerProfile/>
                 </div>
                 <div className="serverInfos bg-secondary">
-                    <ServerInfos switchSettings={this.switchSettings} />
+                    <ServerInfos openSettings={this.openSettings} closeSettings={this.closeSettings} />
                 </div>
             </div>);
         }
@@ -33,4 +43,10 @@ class RightPane extends Component{
     }
 }
 
-export default RightPane; 
+const mapsStateToProps = (state) => {
+    return {
+        serverId: state.server.activeServerId
+    }
+}
+
+export default connect(mapsStateToProps)(RightPane); 

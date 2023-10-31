@@ -73,7 +73,12 @@ const serverReducer = (state = {
             };
             break;
         case "EDIT_SERVER":
-            const editedServer = action.payload;
+            let editedServer = action.payload;
+            state.servers.forEach((s)=>{
+                if (s.id===editedServer.id){
+                    editedServer.userSet=s.userSet;
+                }
+            });
             state = {
                 ...state,
                 servers: state.servers.map(s=>s.id===editedServer.id?editedServer:s)

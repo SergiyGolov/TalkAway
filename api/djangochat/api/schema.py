@@ -9,6 +9,7 @@ from graphene_django.types import DjangoObjectType
 from .models import Message, Server, Channel, Right, Reaction, Friend
 from django.contrib.auth import get_user_model
 from graphql_jwt.decorators import login_required, user_passes_test
+from datetime import datetime
 
 
 class MessageType(DjangoObjectType):
@@ -250,11 +251,11 @@ class EditUser(graphene.Mutation):
         image = graphene.String()
 
     @login_required
-    def mutate(self, info, oldPassword, newPassword="", newMail="", image=""):
+    def mutate(self, info, oldPassword="", newPassword="", newMail="", image=""):
 
         authUser = info.context.user
 
-        if not authUser.check_password(oldPassword):
+        if oldPassword!="" and not authUser.check_password(oldPassword):
             raise Exception("Incorrect password")
 
         if newPassword != "":
@@ -300,7 +301,7 @@ class CreateMessage(graphene.Mutation):
                 raise Exception(
                     "Authentication error, the user isn't allowed to add a message in this channel")
 
-        message = Message(text=text.replace('񮦅','\n'), channel=channel, user=authUser)
+        message = Message(text=text.replace('񮦅','\n'), channel=channel, user=authUser,date=datetime.now())
         message.save()
 
         return CreateMessage(

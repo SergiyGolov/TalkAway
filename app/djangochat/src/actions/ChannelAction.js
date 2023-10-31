@@ -97,7 +97,6 @@ export function requestChannelList(serverId) {
             }
             `
         };
-
         return fetch(baseGraphqlUrl + '/', {
             method: 'POST',
             body: JSON.stringify(requestBody),

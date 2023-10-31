@@ -35,17 +35,17 @@ class ContactList extends Component {
         });
         this.props.requestServerList().catch(()=>{
             toastr.error("Error","Impossible to retrieve servers list")
-        });;
+        });
         window.addEventListener("resize", this.updateDimensions);
 
         this.serverInputRef = React.createRef();
+
     }
 
     selectDefaultServer = () => {
         if (this.props.servers.length > 0) {
             const defaultServer = this.props.servers[0];
             this.serverSelected(defaultServer.id);
-            
             this.setState({
                 defaultServerSelected: true
             })
@@ -102,19 +102,20 @@ class ContactList extends Component {
     }
 
     serverSelected = (serverId) => {
-        const oldId = this.props.activeServerId;
+        // const oldId = this.props.activeServerId;
         this.props.selectServer(serverId);
-        if (oldId !== serverId) {
+        // if (oldId !== serverId ) {
             this.props.requestChannelList(serverId).then(() => {
                 this.props.selectChannelAuto(serverId);
             }).catch(()=>{
                 toastr.error("Error","Impossible to retrieve channel list")
             });
-        }
+            this.setState({
+                idSelectedServer: serverId
+            })
+        // }
 
-        this.setState({
-            idSelectedServer: serverId
-        })
+        
     }
 
     addingFriend = () => {

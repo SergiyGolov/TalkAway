@@ -113,7 +113,7 @@ class MiddlePane extends Component {
                         id: messageId
                     }
                 }));
-
+                this.dropDown();
                 this.setState({
                     messageInput: '',
                     messageSent: true
@@ -124,6 +124,7 @@ class MiddlePane extends Component {
     }
 
     render() {
+
         const messagesAvailable = this.props.messages.length > 0;
 
         let dropDownVisibility = { bottom: this.state.chatInputHeight + 10 };

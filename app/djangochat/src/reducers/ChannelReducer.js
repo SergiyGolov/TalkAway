@@ -20,10 +20,14 @@ const channelReducer = (state = {
             }
             break;
         case "LIST_CHANNEL":
-            const newChannels = state.channels.filter(c => c.serverId === action.payload.serverId);
+            const oldChannels = state.channels.filter(c => c.serverId === action.payload.serverId);
+            let newChannels = [...action.payload.channels,oldChannels];
+            let jsonObject = newChannels.map(JSON.stringify);
+            let uniqueSet = new Set(jsonObject);
+            const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
             state = {
                 ...state,
-                channels: [...action.payload.channels, ...newChannels]
+                channels: [...uniqueArray]
             }
             break;
         case "LOGOUT":

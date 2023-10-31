@@ -60,13 +60,14 @@ class UserHeader extends Component {
 
         // Return the component
         return (
-            <div className="rowProfile" onClick={this.openSettings}>
+            <div className="rowProfile">
                 <div className="images">
                     <img className="image-profile" alt="" src={imageprofile}/>
                     {/*{<img className="connection" alt="" src={connectionImg}/>*/}
                 </div>
                 <div className="username-profile">
                     {this.props.auth.username}
+                <button className="editUserButton unselectable" onClick={this.openSettings}>User settings</button>
                 </div>
             </div>
         );

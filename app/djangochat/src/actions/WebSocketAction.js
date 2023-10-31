@@ -6,7 +6,7 @@ import { requestServerList } from "./ServerAction";
 
 export function initWebSocket() {
     return (dispatch, getState) => {
-        document.cookie = `token=${getState().auth.token};max-age=1`;
+        document.cookie = `token=${getState().auth.token}; max-age=1;`;
         let ws = new WebSocket(
             baseWebsocketUrl);
 

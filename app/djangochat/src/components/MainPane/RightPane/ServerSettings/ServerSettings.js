@@ -23,6 +23,7 @@ class ServerSettings extends Component {
         this.props.requestEditServer(server.id, name, image, userAddingRight).catch(() => {
             toastr.error("Error", "Impossible to save your settings")
         });
+        this.props.closeSettings();
     }
 
     render() {
@@ -31,7 +32,7 @@ class ServerSettings extends Component {
         return (
             <div className="container unselectable">
 
-                <button id="close-settings" type="button" className="close close-settings" onClick={this.props.switchSettings}>
+                <button id="close-settings" type="button" className="close close-settings" onClick={this.props.closeSettings}>
                     &times;
                 </button>
 

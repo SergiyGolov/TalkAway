@@ -30,9 +30,9 @@ class UserSettings extends Component {
         if(this.state.newPassword !== this.state.newPassword2){
             errors['password_repeat'] = 'Password not identical';
         }
-        if(this.state.oldPassword === ''){
-            errors['password'] = 'Please provide your password'
-        }
+        // if(this.state.oldPassword === ''){
+        //     errors['password'] = 'Please provide your password'
+        // }
 
         if(Object.keys(errors).length > 0){
             this.setState({
@@ -42,7 +42,8 @@ class UserSettings extends Component {
             return;
         }
 
-        if(this.state.newPassword===this.state.newPassword2 && this.state.oldPassword!==''){
+        // if(this.state.newPassword===this.state.newPassword2 && this.state.oldPassword!==''){
+            if(this.state.newPassword===this.state.newPassword2){
             const image = this.refEditor.current.getData();
             this.props.requestEditUser(this.state.mail,this.state.newPassword,this.state.oldPassword,image)
             .then(()=>{
@@ -54,6 +55,7 @@ class UserSettings extends Component {
                 });
 
                 toastr.success("Settings", "Saved successfuly");
+                this.props.switchSettings();
             }).catch((e)=>{
                 toastr.error("Settings", "Error invalid password");
             });
